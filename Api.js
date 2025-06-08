@@ -9,3 +9,13 @@ export const fetchTodayMatches = async () => {
         return[];
     }
 };
+
+export const fetchFixtureDetails = async (fixtureId) => {
+    try {
+        const response = await axios.get(`http://localhost:3000/fixtures/${fixtureId}`);
+        return response.data.response[0];
+    } catch (error) {
+        console.error("Failed to fetch match details:",error);
+        return null;
+    }
+};
