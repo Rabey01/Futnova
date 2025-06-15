@@ -19,3 +19,25 @@ export const fetchFixtureDetails = async (fixtureId) => {
         return null;
     }
 };
+
+export const fetchLeagueStandings = async (leagueId) => {
+    try {
+        console.log("Fetching standings for leagueId:", leagueId);
+        const response = await axios.get(`http://localhost:3000/leagues/${leagueId}/standings`);
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch standings:", error);
+        return null;
+    }
+};
+
+export const fetchLeagueFixtures = async (leagueId) => {
+    try {
+        const response = await axios.get(`http://localhost:3000/leagues/${leagueId}/fixtures`);
+
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch league fixtures:",error);
+        return null;
+    }
+};

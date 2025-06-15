@@ -1,6 +1,7 @@
 import { useState, useEffect} from "react";
 import { fetchTodayMatches } from "../../Api";
 import MatchCard from "../Components/MatchCard";
+import { useNavigate } from "react-router-dom";
 
 const selectedTopLeagueIds = [
   1, 2, 3, 4, 5, 7, 9, 15, 848, 531, 29, 30, 31, 32, 33, 34, 13,      // 🌍 International / Continental
@@ -22,6 +23,8 @@ const leagueIds = [
 
 export default function Home () {
     const [matchesByLeague, setMatchesByLeague] = useState({});
+    const navigate = useNavigate();
+
 
     useEffect (() => {
         const loadMatches = async () => {
@@ -67,6 +70,9 @@ export default function Home () {
 
     return (
         <div className="min-h-screen bg-gray-100 p-4">
+            <button onClick={() => navigate("/leagues")}className="block mx-auto mb-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                View Leagues
+            </button>
             <h1 className="text-2xl font-semibold text-center text-gray-800 mb-6"> Today's Matches </h1>
 
             {Object.keys(matchesByLeague).length === 0 ? (
