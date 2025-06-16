@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const fetchTodayMatches = async () => {
+export const fetchTodayMatches = async (timezone) => {
     try {
-        const response = await axios.get("http://localhost:3000/fixtures/today");
+        const response = await axios.get(`http://localhost:3000/fixtures/today?timezone=${encodeURIComponent(timezone)}`);
         return response.data.response;
     } catch (error) {
         console.error("Failed to fetch fixtures:",error);

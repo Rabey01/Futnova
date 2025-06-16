@@ -33,7 +33,8 @@ export default function Home () {
            if (storedData) {
                 matches = JSON.parse(storedData);
             } else {
-                matches = await fetchTodayMatches();
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                matches = await fetchTodayMatches(timezone);
                 sessionStorage.setItem("todayMatches", JSON.stringify(matches));
             }
 

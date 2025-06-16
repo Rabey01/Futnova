@@ -6,10 +6,10 @@ export default function TopLeagues({ onSelect }) {
         { id: 39, name: "Premier League", switchFill: false },
         { id: 135, name: "Serie A", switchFill: false },
         { id: 2, name: "UEFA Champions League", switchFill: true },
-        { id: 3, name: "UEFA Europa League", switchFill: true },
-        { id: 1, name: "FIFA World Cup", switchFill: false },
         { id: 61, name: "Ligue 1", switchFill: true },
         { id: 78, name: "Bundesliga", switchFill: false },
+        { id: 3, name: "UEFA Europa League", switchFill: true },
+        { id: 1, name: "FIFA World Cup", switchFill: false },
         { id: 143, name: "Copa del Rey", switchFill: true },
         { id: 45, name: "FA Cup", switchFill: false },
     ];
@@ -29,7 +29,12 @@ export default function TopLeagues({ onSelect }) {
                             {Logo && (
                             <img src={Logo} alt={league.name} className="w-4 h-4" />
                             )}
-                            <span className="text-sm ">{league.name}</span>
+                            <span className="text-sm">
+                                {league.name}
+                                {[1, 143, 45, 3].includes(league.id) && (
+                                    <div className="text-xs text-gray-500">via FotMob</div>
+                                )}
+                            </span>
                         </li>
                     );
                 })}
