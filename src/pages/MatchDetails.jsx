@@ -1,97 +1,203 @@
-import { useEffect,useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams,useNavigate } from "react-router-dom";
 import { fetchFixtureDetails } from "../../Api";
+import MatchEvents from "../Components/match details collection/MatchEvents";
+import Lineup from "../Components/match details collection/Lineup";
+import StatsPage from "../Components/match details collection/StatsPage";
+import PlayerStats from "../Components/match details collection/PlayerStats";
+import SkeletonLoader from "../Components/SkeletonLoader";
+import ErrorFallback from "../Components/ErrorFallback";
+import EmptyState from "../Components/EmptyState";
 
 export default function MatchDetails() {
-    const { id } = useParams();
-    const [fixtureDetails, setFixtureDetails] = useState(null);
-    const [view, setView] = useState("summary");
+	const { id } = useParams();
+	const [fixtureDetails, setFixtureDetails] = useState(null);
+	const [view, setView] = useState("facts");
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(false);
+	const navigate = useNavigate();
 
-    useEffect(() => {
-        const loadDetails = async () => {
-            const data = await fetchFixtureDetails(id);
-            setFixtureDetails(data);
-        };
-        loadDetails();
-    }, [id]);
+	const loadDetails = async () => {
+		setLoading(true);
+		setError(false);
+		try {
+			const data = await fetchFixtureDetails(id);
+			setFixtureDetails(data);
+		} catch (err) {
+			console.error(err);
+			setError(true);
+		} finally {
+			setLoading(false);
+		}
+		
+	};
 
-    if (!fixtureDetails) {
-        return <p>Loading match details...</p>;
-    }
+	useEffect(() => {
+		loadDetails();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [id]);
 
-    const {fixture, teams, goals, statistics, events, lineups} = fixtureDetails;
+	if (loading) return <SkeletonLoader type="card" count={1} />;
+	if (error) return <ErrorFallback message="Failed to load match details." onRetry={loadDetails} />;
+	if (!fixtureDetails) return <EmptyState message="Match details not available." />;
 
-    return (
-        <div className="min-h-screen bg-gray-100 p-4">
-            <h1 className="text-2xl font-semibold text-center text-gray-800 mb-4">Match Details</h1>
-            <p  className="text-lg font-medium text-center text-gray-700">
-                {teams.home.name} vs {teams.away.name}
-            </p>
-            <p  className="text-sm text-center text-gray-500 mb-2">
-                Status: {fixture.status.long} — {fixture.status.elapsed}'
-            </p>
-            <p className="text-xl font-bold text-center text-black mb-6">
-                Score: {goals.home} - {goals.away}
-            </p>
+	const { fixture, teams, goals, events, statistics, lineups, players,league } = fixtureDetails;
 
-            <div className="flex justify-center gap-3 mb-6">
-                {statistics && <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition" onClick={() => setView("stats")}>View Stats</button>}
-                {events && events.length > 0 && <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition" onClick={() => setView("events")}>View Events</button>}
-                {lineups && lineups.length > 0 && <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition" onClick={() => setView("lineups")}>View Lineups</button>}
-            </div>
-            
-            {view === "stats" && (
-            <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-                <h3 className="text-lg font-semibold mb-2 text-gray-800">Statistics</h3>
-                {statistics.map((teamStats, i) => (
-                <div key={i}>
-                    <h4 className="font-semibold text-blue-600">{teamStats.team.name}</h4>
-                    <ul className="list-disc list-inside text-sm text-gray-700">
-                    {teamStats.statistics.map((stat, idx) => (
-                        <li key={idx}>
-                        {stat.type}: {stat.value ?? 0}
-                        </li>
-                    ))}
-                    </ul>
-                </div>
-                ))}
-            </div>
-            )}
+	return (
+		<div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-8">
+			<div className="max-w-3xl mx-auto bg-white rounded-xl border border-gray-100 space-y-4">
+				
+				{/* Top Bar */}
+				<div className="flex items-center justify-between text-sm text-gray-600 border-b p-6 pb-3 relative">
+					{/* Back Button */}
+					<span className="w-[24px] flex justify-start">
+						<img src="/src/assets/backBtn.svg" alt="Back" className="w-5 h-5 cursor-pointer" onClick={() => navigate("/")} />
+					</span>
 
-            {view === "events" && (
-            <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-                <h3 className="text-lg font-semibold mb-2 text-gray-800">Match Events</h3>
-                <ul className="list-disc list-inside text-sm text-gray-700">
-                {events.map((event, idx) => (
-                    <li key={idx}>
-                    {event.time.elapsed}' - {event.team.name}: {event.player.name} ({event.type} - {event.detail})
-                    </li>
-                ))}
-                </ul>
-            </div>
-            )}
+					{/* League Info */}
+					<div className="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-2 text-gray-700 text-sm font-medium">
+						{league?.logo && (
+							<img src={league.logo} alt="league" className="w-6 h-6 object-contain" />
+						)}
+						<span className="text-xs sm:text-base text-center font-medium">{league?.name} {league?.round}</span>
+					</div>
+				</div>
 
-            {view === "lineups" && (
-            <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-                <h3 className="text-lg font-semibold mb-2 text-gray-800">Lineups</h3>
-                {lineups.map((team, idx) => (
-                <div key={idx}>
-                    <h4 className="font-semibold text-blue-600">{team.team.name}</h4>
-                    <p className="text-sm text-gray-600">Coach: {team.coach.name}</p>
-                    <p className="text-sm text-gray-600 mb-1">Formation: {team.formation}</p>
-                    <ul className="list-disc list-inside text-sm text-gray-700">
-                    {team.startXI.map((player, i) => (
-                        <li key={i}>
-                        #{player.player.number} - {player.player.name}
-                        </li>
-                    ))}
-                    </ul>
-                </div>
-                ))}
-            </div>
-            )}
+				{/* Meta Info */}
+				<div className="hidden sm:flex flex-wrap justify-center text-sm text-gray-600 font-semibold gap-5 text-center border-b pb-3">
+					<span className="flex items-center gap-2">
+						<img src="/src/assets/Icons/calendar.png" className="w-4 h-4" alt="calendar" />
+						{new Date(fixture?.date).toLocaleString("en-US", {
+							weekday: 'short', month: 'short', day: 'numeric',
+							hour: 'numeric', minute: 'numeric'
+						})}
+					</span>
 
-        </div>
-    )
+					<span className="flex items-center gap-2">
+						<img src="/src/assets/Icons/stadium.png" className="w-4 h-4" alt="stadium" />
+						{fixture.venue.name}
+					</span>
+
+					<span className="flex items-center gap-2">
+						<img src="/src/assets/Icons/whistle.png" className="w-4 h-4" alt="referee" />
+						{fixture.referee}
+					</span>
+				</div>
+
+				{/* Teams & Score */}
+				<div className="flex items-center justify-between text-center gap-2 sm:gap-4 text-[13px] sm:text-base">
+					<div className="w-1/3 flex flex-col items-center sm:block">
+						<div className="order-2 sm:order-none mt-1 sm:mt-0">
+							<p className="font-medium text-xs sm:text-base text-center min-h-[2rem]">{teams?.home?.name}</p>
+						</div>
+						<div className="order-1 sm:order-none">
+							<img src={teams?.home?.logo} alt="home" className="h-8 sm:h-10 mx-auto my-1" />
+						</div>
+					</div>
+
+					<div className="w-1/3">
+						<p className="text-xl sm:text-2xl font-bold">{goals?.home} - {goals?.away}</p>
+						<p className="text-[11px] sm:text-xs text-gray-500">{fixture?.status?.long}</p>
+					</div>
+
+					<div className="w-1/3 flex flex-col items-center sm:block">
+						<div className="order-2 sm:order-none mt-1 sm:mt-0">
+							<p className="font-medium text-xs sm:text-base mt-1 sm:mt-0 min-h-[2rem]">{teams?.away?.name}</p>							
+						</div>
+						<div className="order-1 sm:order-none">
+							<img src={teams?.away?.logo} alt="away" className="h-8 sm:h-10 mx-auto my-1" />							
+						</div>
+					</div>
+				</div>
+
+				{/* Goal Events */}
+				{(() => {
+					const formatGoals = (goalArray) => {
+						const grouped = {};
+						goalArray.forEach(e => {
+							const name = e.player?.name;
+							const minute = `${e.time?.elapsed}'`;
+							if (!grouped[name]) grouped[name] = [];
+							grouped[name].push(minute);
+						});
+						return grouped;
+					}
+					const homeGoals = formatGoals(events.filter(e => e.type === "Goal" && e.team?.id === teams.home.id));
+					const awayGoals = formatGoals(events.filter(e => e.type === "Goal" && e.team?.id === teams.away.id));
+					const maxLength = Math.max(Object.keys(homeGoals).length, Object.keys(awayGoals).length);
+
+					const getEntry = (obj, index) => {
+						const keys = Object.keys(obj);
+						const name = keys[index];
+						if (!name) return "";
+						const minutes = obj[name].join(", ");
+						return <span className="text-gray-500"><span className="font-semibold">{name.split(" ").slice(-1)[0]}</span> <span className="font-bold">{minutes}</span></span>;
+					};
+					
+					return (
+						<div className="flex flex-col gap-1 text-[11px] sm:text-sm">
+							{Array.from({ length: maxLength }).map((_, i) => (
+									<div key={i} className="grid grid-cols-3 items-center">
+										<div className="text-right pr-1 sm:pr-2">{getEntry(homeGoals, i)}</div>
+										<div className="text-center">
+											{i === 0 && (
+												<img
+													src="https://img.icons8.com/plasticine/26/football2.png"alt="goal-icon"className="w-4 h-4 sm:w-5 sm:h-5 inline-block"
+												/>
+											)}
+										</div>
+										<div className="text-left pl-1 sm:pl-2">{getEntry(awayGoals, i)}</div>
+									</div>
+							))}
+						</div>
+					);
+				})()}
+
+
+				{/* Tab Controls */}
+				<div className="flex justify-center gap-6 border-gray-200 p-6">
+					{[
+						{ type: "facts", label: "Facts", data: events },
+						{ type: "lineups", label: "Lineup", data: lineups },
+						{ type: "stats", label: "Stats", data: statistics },
+						{ type: "players", label: "Player Stats", data: players },
+					].map(({ type, label, data }) => (
+						data?.length > 0 && (
+							<button
+								key={type}
+								onClick={() => setView(type)}
+								className={`relative pb-2 text-sm sm:text-base font-medium transition-colors duration-200 
+									${view === type ? "text-black font-semibold" : "text-gray-500 hover:text-black"}
+								`}
+							>
+								{label}
+								{view === type && (
+									<span className="absolute bottom-0 left-0 w-full h-[3px] bg-lime-300 rounded"></span>
+								)}
+							</button>
+						)
+					))}
+				</div>
+			</div>
+
+			{/* Tab Content Outside */}
+			<div className="max-w-3xl mx-auto mt-6">
+				{view === "facts" && events?.length > 0 && (
+					<>
+						<MatchEvents events={events} homeTeamId={teams?.home?.id} matchStatus={fixture?.status?.short}/>
+						{lineups?.length >= 2 && players?.length > 0 && (
+							<div className="mt-6">
+								<Lineup lineups={lineups} players={players} events={events} showCoach={false}/>
+							</div>
+						)}
+					</>	
+				)}
+				{view === "lineups" && lineups?.length >= 2 && players?.length > 0 && (
+					<Lineup lineups={lineups} players={players} events={events}/>
+				)}
+				{view === "stats" && statistics?.length > 0 && <StatsPage statistics={statistics} lineups={lineups} />}
+				{view === "players" && players?.length > 0 && <PlayerStats players={players} />}
+			</div>
+		</div>
+	);
 }
-

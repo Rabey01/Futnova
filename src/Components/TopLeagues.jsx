@@ -15,31 +15,38 @@ export default function TopLeagues({ onSelect }) {
     ];
 
     return (
-        <div className="p-4 max-w-sm mx-auto rounded-xl">
-            <h1 className="text-lg font-semibold mb-4">Top leagues</h1>
-            <ul className="space-y-3">
-                {leagues.map((league) => {
-                    const Logo = logoMap[league.id];
-                    return (
-                        <li
-                            key={league.id}
-                            className="flex items-center gap-3 cursor-pointer"
-                            onClick={() => onSelect(league)}
-                        >
-                            {Logo && (
-                            <img src={Logo} alt={league.name} className="w-4 h-4" />
-                            )}
-                            <span className="text-sm">
-                                {league.name}
-                                {[1, 143, 45, 3].includes(league.id) && (
-                                    <div className="text-xs text-gray-500">via FotMob</div>
+        <>
+            <div className="p-6 max-w-7xl mx-auto bg-white shadow-md rounded-2xl mt-6">
+                <h1 className="text-lg font-semibold mb-4">Top leagues</h1>
+                <ul className="space-y-3">
+                    {leagues.map((league) => {
+                        const Logo = logoMap[league.id];
+                        return (
+                            <li
+                                key={league.id}
+                                className="flex items-center gap-3 p-1 rounded-lg cursor-pointer transition hover:bg-gray-100 active:scale-[0.98]"
+                                onClick={() => onSelect(league)}
+                            >
+                                {Logo && (
+                                    <img src={Logo} alt={league.name} className="w-[20px] h-[20px] object-contain" />
                                 )}
-                            </span>
-                        </li>
-                    );
-                })}
-            </ul>
-        </div>
+                                <div className="flex flex-col">
+                                    <span className="text-sm font-medium">{league.name}</span>
+                                    {[1, 143, 45, 3].includes(league.id) && (
+                                        <div className="text-xs text-gray-500 -mt-1">via FotMob</div>
+                                    )}
+                                </div>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+            <div className="mt-10 text-center px-4">
+                <p className="text-sm text-gray-500">
+                    Only selected leagues are supported due to data availability.
+                </p>
+            </div>
+        </>
     );
 
 }

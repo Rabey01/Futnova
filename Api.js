@@ -1,8 +1,10 @@
 import axios from "axios";
 
-export const fetchTodayMatches = async (timezone) => {
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+export const fetchTodayMatches = async (timezone,date) => {
     try {
-        const response = await axios.get(`http://localhost:3000/fixtures/today?timezone=${encodeURIComponent(timezone)}`);
+        const response = await axios.get(`${BASE_URL}/fixtures/today?timezone=${encodeURIComponent(timezone)}&date=${date}`);
         return response.data.response;
     } catch (error) {
         console.error("Failed to fetch fixtures:",error);
@@ -12,7 +14,7 @@ export const fetchTodayMatches = async (timezone) => {
 
 export const fetchFixtureDetails = async (fixtureId) => {
     try {
-        const response = await axios.get(`http://localhost:3000/fixtures/${fixtureId}`);
+        const response = await axios.get(`${BASE_URL}/fixtures/${fixtureId}`);
         return response.data.response[0];
     } catch (error) {
         console.error("Failed to fetch match details:",error);
@@ -22,8 +24,7 @@ export const fetchFixtureDetails = async (fixtureId) => {
 
 export const fetchLeagueStandings = async (leagueId) => {
     try {
-        console.log("Fetching standings for leagueId:", leagueId);
-        const response = await axios.get(`http://localhost:3000/leagues/${leagueId}/standings`);
+        const response = await axios.get(`${BASE_URL}/leagues/${leagueId}/standings`);
         return response.data;
     } catch (error) {
         console.error("Failed to fetch standings:", error);
@@ -33,8 +34,7 @@ export const fetchLeagueStandings = async (leagueId) => {
 
 export const fetchLeagueFixtures = async (leagueId) => {
     try {
-        const response = await axios.get(`http://localhost:3000/leagues/${leagueId}/fixtures`);
-
+        const response = await axios.get(`${BASE_URL}/leagues/${leagueId}/fixtures`);
         return response.data;
     } catch (error) {
         console.error("Failed to fetch league fixtures:",error);

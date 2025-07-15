@@ -10,14 +10,14 @@ import CopaDelReyLogo from './logos/copa-del-rey.svg';
 import FACupLogo from './logos/fa-cup.svg';
 
 export const logoMap = {
-  140: LaLigaLogo,
-  39: PremierLeagueLogo,
-  135: SerieALogo,
-  2: UCLLogo,
-  3: EuropaLogo,
-  1: WorldCupLogo,
-  61: Ligue1Logo,
-  78: BundesligaLogo,
-  143: CopaDelReyLogo,
-  45: FACupLogo,
+	140: LaLigaLogo,
+	39: PremierLeagueLogo,
+	135: SerieALogo,
+	2: UCLLogo,
+	3: EuropaLogo,
+	1: WorldCupLogo,
+	61: Ligue1Logo,
+	78: BundesligaLogo,
+	143: CopaDelReyLogo,
+	45: FACupLogo,
 };
