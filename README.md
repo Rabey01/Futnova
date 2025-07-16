@@ -6,12 +6,12 @@ FutNova is a full-stack web application that lets users explore live football fi
 
 ## Live Demo
 
-🌍 Frontend: [https://futnova.netlify.app](https://futnova.netlify.app)  
-🔗 Backend API: [https://futnova-api.onrender.com](https://futnova-api.onrender.com)
+ Frontend: [https://futnova.netlify.app](https://futnova.netlify.app)  
+ Backend API: [https://futnova-api.onrender.com](https://futnova-api.onrender.com)
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 **Frontend** – [React.js](https://reactjs.org)  
 **Backend** – [Ruby on Rails](https://rubyonrails.org)  
@@ -30,19 +30,3 @@ FutNova is a full-stack web application that lets users explore live football fi
 -  Automatic fallback and error handling for empty or failed responses
 
 ---
-
-## 📂 Folder Structure (Frontend)
-src/
-├── Components/
-│ ├── MatchCard.jsx
-│ ├── LeagueTable.jsx
-│ ├── MatchDetails.jsx
-│ └── ...
-├── Pages/
-│ ├── Home.jsx
-│ ├── LeagueDetails.jsx
-│ └── ...
-├── Api/
-│ └── api.js
-├── App.jsx
-└── main.jsx
