@@ -1,12 +1,48 @@
-# React + Vite
+# FutNova – Football Live Stats Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FutNova is a full-stack web application that lets users explore live football fixtures, league standings, and match details — all from one elegant and responsive interface. Designed for football fans, analysts, and casual viewers, the app brings real-time match data directly to the browser.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Live Demo
 
-## Expanding the ESLint configuration
+🌍 Frontend: [https://futnova.netlify.app](https://futnova.netlify.app)  
+🔗 Backend API: [https://futnova-api.onrender.com](https://futnova-api.onrender.com)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠 Tech Stack
+
+**Frontend** – [React.js](https://reactjs.org)  
+**Backend** – [Ruby on Rails](https://rubyonrails.org)  
+**API Integration** – [API-Football](https://www.api-football.com/) & [football-data.org](https://www.football-data.org/)  
+**Deployment** – [Netlify (Frontend)](https://www.netlify.com) & [Render (Backend)](https://render.com)
+
+---
+
+## Features
+
+-  View today's live fixtures with team logos, time, and match status  
+-  Explore league-wise fixtures and current standings  
+-  Click on matches to see detailed breakdowns (score, venue, etc.)  
+-  Seamless API integration with real-time data  
+-  Clean, mobile-friendly UI with optimized performance  
+-  Automatic fallback and error handling for empty or failed responses
+
+---
+
+## 📂 Folder Structure (Frontend)
+src/
+├── Components/
+│ ├── MatchCard.jsx
+│ ├── LeagueTable.jsx
+│ ├── MatchDetails.jsx
+│ └── ...
+├── Pages/
+│ ├── Home.jsx
+│ ├── LeagueDetails.jsx
+│ └── ...
+├── Api/
+│ └── api.js
+├── App.jsx
+└── main.jsx
