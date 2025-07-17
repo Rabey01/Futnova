@@ -8,6 +8,7 @@ import PlayerStats from "../Components/match details collection/PlayerStats";
 import SkeletonLoader from "../Components/SkeletonLoader";
 import ErrorFallback from "../Components/ErrorFallback";
 import EmptyState from "../Components/EmptyState";
+import backBtn from '../logos/backBtn.svg'
 
 export default function MatchDetails() {
 	const { id } = useParams();
@@ -51,7 +52,7 @@ export default function MatchDetails() {
 				<div className="flex items-center justify-between text-sm text-gray-600 border-b p-6 pb-3 relative">
 					{/* Back Button */}
 					<span className="w-[24px] flex justify-start">
-						<img src="/src/assets/backBtn.svg" alt="Back" className="w-5 h-5 cursor-pointer" onClick={() => navigate("/")} />
+						<img src= {backBtn} alt="Back" className="w-5 h-5 cursor-pointer" onClick={() => navigate("/")} />
 					</span>
 
 					{/* League Info */}
