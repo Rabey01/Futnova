@@ -67,7 +67,7 @@ export default function MatchDetails() {
 				{/* Meta Info */}
 				<div className="hidden sm:flex flex-wrap justify-center text-sm text-gray-600 font-semibold gap-5 text-center border-b pb-3">
 					<span className="flex items-center gap-2">
-						<img src="/src/assets/Icons/calendar.png" className="w-4 h-4" alt="calendar" />
+						<img src="https://img.icons8.com/fluency-systems-regular/48/calendar--v1.png" className="w-4 h-4" alt="calendar" />
 						{new Date(fixture?.date).toLocaleString("en-US", {
 							weekday: 'short', month: 'short', day: 'numeric',
 							hour: 'numeric', minute: 'numeric'
@@ -75,12 +75,12 @@ export default function MatchDetails() {
 					</span>
 
 					<span className="flex items-center gap-2">
-						<img src="/src/assets/Icons/stadium.png" className="w-4 h-4" alt="stadium" />
+						<img src="https://img.icons8.com/external-kosonicon-outline-kosonicon/64/external-stadium-soccer-and-football-match-kosonicon-outline-kosonicon.png" className="w-4 h-4" alt="stadium" />
 						{fixture.venue.name}
 					</span>
 
 					<span className="flex items-center gap-2">
-						<img src="/src/assets/Icons/whistle.png" className="w-4 h-4" alt="referee" />
+						<img src="https://img.icons8.com/metro/26/whistle.png" className="w-4 h-4" alt="referee" />
 						{fixture.referee}
 					</span>
 				</div>
