@@ -1,10 +1,12 @@
+import rightIcon from '../../assets/Icons/right-arrow.png';
+
 export default function CoachAndSubs({ players, events, home, away, homeId, awayId }) {
 	const ICONS = {
 		goal: "https://img.icons8.com/plasticine/26/football2.png",
 		assist: "https://img.icons8.com/ios-glyphs/26/cleats.png",
 		yellow: "https://img.icons8.com/color/26/soccer-yellow-card.png",
 		red: "https://img.icons8.com/color/26/foul.png",
-		rightArrow: "/src/assets/Icons/right-arrow.png",
+		rightArrow: {rightIcon},
 	};
 
 	const positionMap = {
