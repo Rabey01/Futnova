@@ -6,7 +6,7 @@ export default function CoachAndSubs({ players, events, home, away, homeId, away
 		assist: "https://img.icons8.com/ios-glyphs/26/cleats.png",
 		yellow: "https://img.icons8.com/color/26/soccer-yellow-card.png",
 		red: "https://img.icons8.com/color/26/foul.png",
-		rightArrow: {rightIcon},
+		rightArrow: rightIcon,
 	};
 
 	const positionMap = {

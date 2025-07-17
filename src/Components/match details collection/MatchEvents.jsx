@@ -10,7 +10,7 @@ export default function MatchEvents({ events, homeTeamId,matchStatus }) {
 		if (type === "Card" && detail === "Red Card") return "https://img.icons8.com/color/26/foul.png";
 		if (type === "Card" && detail === "Yellow Card") return "https://img.icons8.com/color/26/soccer-yellow-card.png";
 		if (type === "Goal") return "https://img.icons8.com/plasticine/26/football2.png";
-		if (type === "subst") return {subIcon};
+		if (type === "subst") return subIcon;
 		return null;
 	};
   	const secondHalfIndex = events.findIndex(e => e.time?.elapsed >= 46) || 0;
